@@ -1,5 +1,6 @@
-import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
 //        System.out.println(retangulo2.exibirInformacoes());
 //
 
-        Retangulo[] vetorRetangulo = new Retangulo[5];
+        LinkedList<Retangulo> listaRetangulo = new LinkedList<>();
 
         Scanner input = new Scanner(System.in);
 
@@ -24,7 +25,18 @@ public class Main {
             System.out.println("Informe a altura: ");
             double altura = input.nextDouble();
 
-            vetorRetangulo[i] = new Retangulo(largura, altura);
+            listaRetangulo.add(new Retangulo(largura, altura));
+        }
+
+        for (int i = 5; i < 10; i++) {
+            System.out.println("----Novo retângulo " + (i + 1) + "----");
+            System.out.println("Informe a largura: ");
+            double largura = input.nextDouble();
+
+            System.out.println("Informe a altura: ");
+            double altura = input.nextDouble();
+
+            listaRetangulo.add(new Retangulo(largura, altura));
         }
 
         double maiorArea = 0;
@@ -33,19 +45,14 @@ public class Main {
         Retangulo retanguloMaiorArea = null;
         Retangulo retanguloMenorPerimetro = null;
 
-        for (int i = 0; i < vetorRetangulo.length; i++) {
-            Retangulo retangulo = vetorRetangulo[i];
-
-            System.out.println("\n**** Retângulo " + (i + 1) + " ****");
-            System.out.println(retangulo.exibirInformacoes());
-
-            if (retangulo.areaRetangulo > maiorArea) {
-                maiorArea = retangulo.areaRetangulo;
+        for (Retangulo retangulo : listaRetangulo) {
+            if (retangulo.getArea() > maiorArea) {
+                maiorArea = retangulo.getArea();
                 retanguloMaiorArea = retangulo;
             }
 
-            if (retangulo.perimetroRetangulo < menorPerimetro) {
-                menorPerimetro = retangulo.perimetroRetangulo;
+            if (retangulo.getPerimetro() < menorPerimetro) {
+                menorPerimetro = retangulo.getPerimetro();
                 retanguloMenorPerimetro = retangulo;
             }
         }
@@ -61,38 +68,17 @@ public class Main {
         }
 
 
-        Retangulo[] vetorExpansao = new Retangulo[vetorRetangulo.length * 2];
-
-        for (int i = 0; i < vetorRetangulo.length; i++) {
-            vetorExpansao[i] = vetorRetangulo[i];
-        }
-
-        vetorRetangulo = vetorExpansao;
-
-
-        for (int i = 5; i < vetorRetangulo.length; i++) {
-            System.out.println("----Novo retângulo " + (i + 1) + "----");
-            System.out.println("Informe a largura: ");
-            double largura = input.nextDouble();
-
-            System.out.println("Informe a altura: ");
-            double altura = input.nextDouble();
-
-            vetorRetangulo[i] = new Retangulo(largura, altura);
-        }
-
-        Arrays.sort(vetorRetangulo, new Comparator<Retangulo>() {
+        listaRetangulo.sort(new Comparator<Retangulo>() {
             @Override
             public int compare(Retangulo r1, Retangulo r2) {
-                return Double.compare(r1.getPerimetro(), r2.getPerimetro());
+                return Double.compare(r1.getArea(), r2.getArea());
             }
         });
 
-        System.out.println("\nVetor de retângulos ordenado por área:");
+        System.out.println("\nLista de retângulos ordenada por área:");
 
-        for (int i = 0; i < vetorRetangulo.length; i++) {
-            Retangulo retangulo = vetorRetangulo[i];
-
+        for (int i = 0; i < listaRetangulo.size(); i++) {
+            Retangulo retangulo = listaRetangulo.get(i);
             System.out.println(retangulo.exibirInformacoes());
         }
 
